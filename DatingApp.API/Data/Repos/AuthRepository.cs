@@ -66,8 +66,8 @@ namespace DatingApp.API.Data.Repos
         {
             var user = await _context.Users.FirstOrDefaultAsync(u=>u.Username == username);
             if(user == null)
-                return true;
-            return false;
+                return false;
+            return true;
         }
 
         
