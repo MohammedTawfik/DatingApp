@@ -1,3 +1,4 @@
+import { User } from './../_models/user';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,15 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  username :string;
-  password : string;
+  usermodel: User;
 
-  constructor() { }
+  constructor() {
+    this.usermodel = new User();
+   }
 
   ngOnInit() {
   }
 
-  login(){
-    console.log(this.username+this.password);
-  }  
+  login() {
+    console.log(this.usermodel.Username + this.usermodel.Password);
+  }
 }

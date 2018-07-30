@@ -15,9 +15,9 @@
   </ul>
   <form #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
     <input class="form-control mr-sm-2" type="text" name="username" 
-    placeholder="Username" required [(ngModel)]="username">
+    placeholder="Username" required [(ngModel)]="usermodel.Username">
     <input class="form-control mr-sm-2" type="password" name="password" 
-    placeholder="Password" required [(ngModel)]="password">
+    placeholder="Password" required [(ngModel)]="usermodel.Password">
     <button class="btn btn-success my-2 my-sm-0" type="submit" 
     [disabled]="!loginForm.valid" >Login</button>
   </form>
