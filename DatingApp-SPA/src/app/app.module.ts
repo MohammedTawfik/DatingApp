@@ -1,3 +1,4 @@
+import { AlertifyService } from './_services/alertify.service';
 import { AuthService } from './_services/Auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -22,7 +23,8 @@ import { RegisterComponent } from './register/register.component';
       FormsModule
    ],
    providers: [
-      AuthService
+      AuthService,
+      AlertifyService
    ],
    bootstrap: [
       AppComponent
