@@ -10,6 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   baseUrl = 'https://localhost:5001/api/auth/';
   jwtHelper = new JwtHelperService();
+  decodedToken: any;
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +19,8 @@ export class AuthService {
       map((response: any) => {
         const userToken = response;
         if (userToken) {
-          localStorage.setItem('token', userToken);
+          localStorage.setItem('token', userToken.token);
+          this.decodedToken = this.jwtHelper.decodeToken(userToken.token);
         }
       })
     );

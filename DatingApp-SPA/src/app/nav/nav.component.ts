@@ -1,18 +1,18 @@
-import { AlertifyService } from "./../_services/alertify.service";
-import { User } from "./../_models/user";
-import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../_services/Auth.service";
+import { AlertifyService } from './../_services/alertify.service';
+import { User } from './../_models/user';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_services/Auth.service';
 
 @Component({
-  selector: "app-nav",
-  templateUrl: "./nav.component.html",
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
   usermodel: User;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private alertify: AlertifyService
   ) {
     this.usermodel = new User();
@@ -32,9 +32,9 @@ export class NavComponent implements OnInit {
   }
 
   loggedIn() {
-    const token = localStorage.getItem('token');
-    return !!token;
-    // return this.authService.isUserLoggedIn();
+    // const token = localStorage.getItem('token');
+    // return !!token;
+    return this.authService.isUserLoggedIn();
   }
 
   logOut() {
