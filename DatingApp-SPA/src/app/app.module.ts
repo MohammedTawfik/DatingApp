@@ -5,7 +5,7 @@ import { AuthService } from './_services/Auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap';
 
@@ -16,6 +16,8 @@ import { RegisterComponent } from './register/register.component';
 import { MembersComponent } from './members/members.component';
 import { FriendsComponent } from './friends/friends.component';
 import { MessagesComponent } from './messages/messages.component';
+import { UserService } from './_services/User.service';
+import { MemberCardComponent } from './member-card/member-card.component';
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { MessagesComponent } from './messages/messages.component';
       RegisterComponent,
       MembersComponent,
       FriendsComponent,
-      MessagesComponent
+      MessagesComponent,
+      MemberCardComponent
    ],
    imports: [
       BrowserModule,
@@ -38,7 +41,8 @@ import { MessagesComponent } from './messages/messages.component';
    providers: [
       AuthService,
       AlertifyService,
-      AuthGuard
+      AuthGuard,
+      UserService
    ],
    bootstrap: [
       AppComponent
