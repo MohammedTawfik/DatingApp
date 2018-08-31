@@ -23,6 +23,7 @@ import { MemberCardComponent } from './member-card/member-card.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { MemberDetailComponent } from './member-detail/member-detail.component';
 import { MembersListResolver } from './_resolvers/members-list.resolver';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 export function getToken() {
     return localStorage.getItem('token');
@@ -59,6 +60,7 @@ export function getToken() {
    providers: [
       AuthService,
       AlertifyService,
+      ErrorInterceptorProvider,
       AuthGuard,
       UserService,
       MemberDetailResolver,
