@@ -1,3 +1,4 @@
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { AuthGuard } from './_guards/auth.guard';
 import { appRoutes } from './routes';
 import { AlertifyService } from './_services/alertify.service';
@@ -7,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -19,8 +20,10 @@ import { MessagesComponent } from './messages/messages.component';
 import { UserService } from './_services/User.service';
 import { MemberCardComponent } from './member-card/member-card.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MemberDetailComponent } from './member-detail/member-detail.component';
+import { MembersListResolver } from './_resolvers/members-list.resolver';
 
-export function getToken(){
+export function getToken() {
     return localStorage.getItem('token');
 }
 
@@ -33,16 +36,18 @@ export function getToken(){
       MembersComponent,
       FriendsComponent,
       MessagesComponent,
-      MemberCardComponent
+      MemberCardComponent,
+      MemberDetailComponent
    ],
    imports: [
       BrowserModule,
       HttpClientModule,
       FormsModule,
       BsDropdownModule.forRoot(),
+      TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({
-          config:{
+          config: {
               tokenGetter: getToken,
               whitelistedDomains: ['localhost:5000'],
               blacklistedRoutes: ['localhost:5001/auth']
@@ -53,7 +58,9 @@ export function getToken(){
       AuthService,
       AlertifyService,
       AuthGuard,
-      UserService
+      UserService,
+      MemberDetailResolver,
+      MembersListResolver
    ],
    bootstrap: [
       AppComponent
