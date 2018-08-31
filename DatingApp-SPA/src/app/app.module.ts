@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -46,6 +47,7 @@ export function getToken() {
       BsDropdownModule.forRoot(),
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
+      NgxGalleryModule,
       JwtModule.forRoot({
           config: {
               tokenGetter: getToken,
