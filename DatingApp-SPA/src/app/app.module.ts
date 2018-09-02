@@ -1,3 +1,5 @@
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { AuthGuard } from './_guards/auth.guard';
 import { appRoutes } from './routes';
@@ -24,6 +26,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { MemberDetailComponent } from './member-detail/member-detail.component';
 import { MembersListResolver } from './_resolvers/members-list.resolver';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { MemberEditComponent } from './member-edit/member-edit.component';
 
 export function getToken() {
     return localStorage.getItem('token');
@@ -39,7 +42,8 @@ export function getToken() {
       FriendsComponent,
       MessagesComponent,
       MemberCardComponent,
-      MemberDetailComponent
+      MemberDetailComponent,
+      MemberEditComponent
    ],
    imports: [
       BrowserModule,
@@ -62,9 +66,11 @@ export function getToken() {
       AlertifyService,
       ErrorInterceptorProvider,
       AuthGuard,
+      PreventUnsavedChangesGuard,
       UserService,
       MemberDetailResolver,
-      MembersListResolver
+      MembersListResolver,
+      MemberEditResolver
    ],
    bootstrap: [
       AppComponent
