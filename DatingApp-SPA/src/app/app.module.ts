@@ -27,6 +27,7 @@ import { MemberDetailComponent } from './member-detail/member-detail.component';
 import { MembersListResolver } from './_resolvers/members-list.resolver';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { MemberEditComponent } from './member-edit/member-edit.component';
+import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 
 export function getToken() {
     return localStorage.getItem('token');
@@ -43,7 +44,8 @@ export function getToken() {
       MessagesComponent,
       MemberCardComponent,
       MemberDetailComponent,
-      MemberEditComponent
+      MemberEditComponent,
+      PhotoEditorComponent
    ],
    imports: [
       BrowserModule,
