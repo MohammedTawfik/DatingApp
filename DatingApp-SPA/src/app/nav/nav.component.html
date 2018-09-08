@@ -3,23 +3,26 @@
     <a class="navbar-brand" [routerLink]="['/home']">Dating App</a>
 
     <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active" >
-        <a class="nav-link" [routerLink]="['/members']" >Members</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/members']">Members</a>
       </li>
-      <li class="nav-item" routerLinkActive="active" >
+      <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/friends']">Friends</a>
       </li>
-      <li class="nav-item" routerLinkActive="active" >
+      <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/messages']">Messages</a>
       </li>
     </ul>
 
     <div class="dropdown open" *ngIf="loggedIn()" dropdown>
-      <a class="dropdown-toggle text-light" dropdownToggle >
+      <span class="mr-1">
+        <img src="{{authService.currentUser?.photoUrl}}" alt="">
+      </span>
+      <a class="dropdown-toggle text-light" dropdownToggle>
         Welcome {{authService.decodedToken?.unique_name | titlecase}}
       </a>
       <div class="dropdown-menu" *dropdownMenu>
-        <a class="dropdown-item" [routerLink]="['/member/edit']" >
+        <a class="dropdown-item" [routerLink]="['/member/edit']">
           <i class="fa fa-user"></i>Edit Profile</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="logOut()">
