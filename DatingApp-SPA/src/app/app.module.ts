@@ -12,6 +12,7 @@ import { FormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -61,7 +62,8 @@ export function getToken() {
               whitelistedDomains: ['localhost:5000'],
               blacklistedRoutes: ['localhost:5001/auth']
           }
-      })
+      }),
+      FileUploadModule
    ],
    providers: [
       AuthService,
