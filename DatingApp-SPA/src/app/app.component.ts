@@ -1,3 +1,4 @@
+import { User } from './_models/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './_services/Auth.service';
@@ -8,7 +9,6 @@ import { AuthService } from './_services/Auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
   jwtHelper = new JwtHelperService();
 
   constructor(private authService: AuthService) {}
@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
     }
     const currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
-    this.authService.currentUser = JSON.parse(currentUser);
+      this.authService.currentUser = JSON.parse(currentUser);
+      this.authService.changeUserPhoto(this.authService.currentUser.photoUrl);
     }
   }
 }

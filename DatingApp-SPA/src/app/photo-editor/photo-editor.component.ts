@@ -13,7 +13,7 @@ import { FileUploader } from 'ng2-file-upload';
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() photos: IPhoto[];
-  @Output() mainPhotoChanged = new EventEmitter<string>();
+  // @Output() mainPhotoChanged = new EventEmitter<string>();
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
@@ -68,7 +68,9 @@ export class PhotoEditorComponent implements OnInit {
         this.currentMainPhoto = this.photos.filter(p => p.isMain)[0];
         this.currentMainPhoto.isMain = false;
         photo.isMain = true;
-        this.mainPhotoChanged.emit(photo.url);
+        this.authService.changeUserPhoto(photo.url);
+        this.authService.currentUser.photoUrl = photo.url;
+        localStorage.setItem('currentUser',JSON.stringify(this.authService.currentUser));
       },
       error => {
         this.alertifyService.error(error);
