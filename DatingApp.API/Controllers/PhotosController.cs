@@ -37,7 +37,7 @@ namespace DatingApp.API.Controllers
             _cloudinary = new Cloudinary(cloudinaryAccount);
         }
 
-        [HttpGet("{photoId}",Name="GetPhoto")]
+        [HttpGet("{photoId}", Name = "GetPhoto")]
         public async Task<IActionResult> GetPhoto(int photoId)
         {
             var photoFromRepo = await _datingRepo.GetPhoto(photoId);
@@ -82,10 +82,34 @@ namespace DatingApp.API.Controllers
             if (await _datingRepo.SaveAll())
             {
                 var photoToReturn = _mapper.Map<PhotoForReturnDto>(dbPhoto);
-                return CreatedAtRoute("GetPhoto",new {photoId = dbPhoto.Id},photoToReturn);
+                return CreatedAtRoute("GetPhoto", new { photoId = dbPhoto.Id }, photoToReturn);
             }
 
             return BadRequest("Could not add the photo");
+        }
+
+        [HttpPost("{photoid}/setMain")]
+        public async Task<IActionResult> SetUserMainPhoto(int userId, int photoId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            Models.User userFromRepo = await _datingRepo.GetUser(userId);
+
+            if (!userFromRepo.Photos.Any(photo => photo.Id == photoId))
+                return Unauthorized();
+            Models.Photo photoFromRepo = await _datingRepo.GetPhoto(photoId);
+
+            if (photoFromRepo.IsMain)
+                return BadRequest("This photo already the main photo");
+            Models.Photo userMainPhoto = await _datingRepo.GetUserMainPhoto(userId);
+            userMainPhoto.IsMain = false;
+            photoFromRepo.IsMain = true;
+
+            if (await _datingRepo.SaveAll())
+                return NoContent();
+
+            return BadRequest("Error occurred while setting main photo");
         }
     }
 
