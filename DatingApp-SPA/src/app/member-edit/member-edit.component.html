@@ -23,11 +23,11 @@
         </div>
         <div class="card-body">
           <strong>LastActive: </strong>
-          <p>{{user.lastActive}}</p>
+          <p>{{user.lastActive | timeAgo}}</p>
         </div>
         <div class="card-body">
           <strong>Member since: </strong>
-          <p>{{user.creationDate}}</p>
+          <p>{{user.creationDate | date: 'mediumDate'}}</p>
         </div>
       </div>
         <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block">Save Changes</button>
