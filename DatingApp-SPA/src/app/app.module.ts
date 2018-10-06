@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 import {TimeAgoPipe} from 'time-ago-pipe';
 
@@ -61,6 +62,7 @@ export function getToken() {
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
       BsDatepickerModule.forRoot(),
+      PaginationModule.forRoot(),
       JwtModule.forRoot({
           config: {
               tokenGetter: getToken,

@@ -1,13 +1,16 @@
-import { IUser } from '../_models/IUser';
+import { PaginatedResult } from './../_models/PaginatedResult';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { IUser } from '../_models/IUser';
 import { AlertifyService } from '../_services/alertify.service';
 import { UserService } from '../_services/User.service';
-import { Injectable } from '@angular/core';
-import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class MembersListResolver implements Resolve<IUser[]> {
+    pageNumber = 1;
+    pageSize = 5;
   constructor(
     private userService: UserService,
     private route: Router,
@@ -15,7 +18,7 @@ export class MembersListResolver implements Resolve<IUser[]> {
   ) {}
 
   resolve(activateRoute: ActivatedRouteSnapshot): Observable<IUser[]> {
-      return this.userService.getUsers().pipe(
+      return this.userService.getUsers(this.pageNumber , this.pageSize).pipe(
           catchError(error => {
               this.alertifyService.error('problem retriving member');
               this.route.navigate(['/home']);

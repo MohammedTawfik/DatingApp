@@ -1,3 +1,6 @@
+import { User } from './../_models/user';
+import { PaginatedResult } from './../_models/PaginatedResult';
+import { Paginationinfo } from './../_models/PaginationInfo';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertifyService } from './../_services/alertify.service';
 import { UserService } from './../_services/User.service';
@@ -11,22 +14,32 @@ import { IUser } from '../_models/IUser';
 })
 export class MembersComponent implements OnInit {
   users: IUser[];
-
-  constructor(private userService: UserService,
-     private alertifyService: AlertifyService,
-    private route: ActivatedRoute) {}
+  pagination: Paginationinfo;
+  constructor(
+    private userService: UserService,
+    private alertifyService: AlertifyService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.route.data.subscribe(usersData => {
-      this.users = usersData['users'];
+      this.users = usersData['users'].result;
+      this.pagination = usersData['users'].paginationInfo;
     });
   }
 
-  // getUsers(): void {
-  //   this.userService.getUsers().subscribe((users: IUser[]) => {
-  //     this.users = users;
-  //   }, error => {
-  //     this.alertifyService.error(error);
-  //   });
-  // }
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.getUsers();
+  }
+
+  getUsers(): void {
+    this.userService.getUsers(this.pagination.currentPage, this.pagination.pageSize)
+    .subscribe((result: PaginatedResult<IUser[]>) => {
+      this.users = result.result;
+      this.pagination = result.paginationInfo;
+    }, error => {
+      this.alertifyService.error(error);
+    });
+  }
 }
