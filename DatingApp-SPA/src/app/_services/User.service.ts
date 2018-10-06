@@ -27,6 +27,7 @@ export class UserService {
       params = params.append('minAge', userFilterParams.minAge);
       params = params.append('maxAge', userFilterParams.maxAge);
       params = params.append('gender', userFilterParams.gender);
+      params = params.append('orderBy', userFilterParams.orderBy);
     }
     return this.httpClient.get<IUser[]>(this.baseUrl + 'users', {observe: 'response', params: params})
     .pipe(

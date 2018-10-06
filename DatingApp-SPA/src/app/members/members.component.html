@@ -3,23 +3,20 @@
 </div>
 
 <div class="container mt-3">
-  <form class="form-inline" #filterForm="ngForm" (submit)="getUsers()"  novalidate>
+  <form class="form-inline" #filterForm="ngForm" (submit)="getUsers()" novalidate>
     <div class="form-group">
       <label for="minAge">Age From</label>
-      <input type="number" class="form-control ml-1" style="width: 70px" id="minAge" name="minAge"
-      [(ngModel)]="userFilterParams.minAge">
+      <input type="number" class="form-control ml-1" style="width: 70px" id="minAge" name="minAge" [(ngModel)]="userFilterParams.minAge">
     </div>
 
     <div class="form-group px-2">
       <label for="maxAge">Age To</label>
-      <input type="number" class="form-control ml-1" style="width: 70px" id="maxAge" name="maxAge"
-      [(ngModel)]="userFilterParams.maxAge">
+      <input type="number" class="form-control ml-1" style="width: 70px" id="maxAge" name="maxAge" [(ngModel)]="userFilterParams.maxAge">
     </div>
 
     <div class="form-group px-2">
       <label for="gender">Show: </label>
-      <select class="form-control ml-1" style="width: 130px" id="gender" name="gender"
-      [(ngModel)]="userFilterParams.gender">
+      <select class="form-control ml-1" style="width: 130px" id="gender" name="gender" [(ngModel)]="userFilterParams.gender">
         <option *ngFor="let gender of gendersList" [value]="gender.value">
           {{gender.display}}
         </option>
@@ -27,7 +24,14 @@
     </div>
     <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
     <button type="button" class="btn btn-info" (click)="resetFilters()" style="margin-left:10px">Reset Filter</button>
-
+    <div class="col">
+      <div class="btn-group float-right">
+        <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)]="userFilterParams.orderBy"
+        btnRadio="lastActive" (click)="getUsers()" >Last Active</button>
+        <button type="button" name="orderBy" class="btn btn-primary" [(ngModel)]="userFilterParams.orderBy"
+        btnRadio="created" (click)="getUsers()">Newest Members</button>
+      </div>
+    </div>
   </form>
   <br>
 

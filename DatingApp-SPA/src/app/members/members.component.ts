@@ -34,6 +34,7 @@ export class MembersComponent implements OnInit {
     this.userFilterParams.gender = this.currentUser.gender === 'male' ? 'female' : 'male' ;
     this.userFilterParams.minAge = 18;
     this.userFilterParams.maxAge = 99;
+    this.userFilterParams.orderBy = 'lastActive';
   }
 
   pageChanged(event: any): void {
@@ -55,6 +56,7 @@ export class MembersComponent implements OnInit {
     this.userFilterParams.gender = this.currentUser.gender === 'male' ? 'female' : 'male' ;
     this.userFilterParams.minAge = 18;
     this.userFilterParams.maxAge = 99;
+    this.userFilterParams.orderBy = 'lastActive';
     this.getUsers();
   }
 }
