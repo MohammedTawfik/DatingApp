@@ -14,7 +14,7 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getUsers(pageNumber? , pageSize?): Observable<PaginatedResult<IUser[]>> {
+  getUsers(pageNumber? , pageSize? , userFilterParams?): Observable<PaginatedResult<IUser[]>> {
     const paginatedResult: PaginatedResult<IUser[]> = new PaginatedResult<IUser[]>();
     let params: HttpParams = new HttpParams();
     if (pageNumber != null) {
@@ -22,6 +22,11 @@ export class UserService {
     }
     if (pageSize != null) {
       params = params.append('pageSize', pageSize);
+    }
+    if (userFilterParams != null) {
+      params = params.append('minAge', userFilterParams.minAge);
+      params = params.append('maxAge', userFilterParams.maxAge);
+      params = params.append('gender', userFilterParams.gender);
     }
     return this.httpClient.get<IUser[]>(this.baseUrl + 'users', {observe: 'response', params: params})
     .pipe(

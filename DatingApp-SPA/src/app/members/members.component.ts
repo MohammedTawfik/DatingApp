@@ -15,6 +15,10 @@ import { IUser } from '../_models/IUser';
 export class MembersComponent implements OnInit {
   users: IUser[];
   pagination: Paginationinfo;
+  currentUser: IUser = JSON.parse(localStorage.getItem('currentUser'));
+  userFilterParams: any = {};
+  gendersList = [{value: 'male' , display: 'Males'}, {value: 'female' , display: 'Females'}];
+
   constructor(
     private userService: UserService,
     private alertifyService: AlertifyService,
@@ -26,6 +30,10 @@ export class MembersComponent implements OnInit {
       this.users = usersData['users'].result;
       this.pagination = usersData['users'].paginationInfo;
     });
+
+    this.userFilterParams.gender = this.currentUser.gender === 'male' ? 'female' : 'male' ;
+    this.userFilterParams.minAge = 18;
+    this.userFilterParams.maxAge = 99;
   }
 
   pageChanged(event: any): void {
@@ -34,12 +42,19 @@ export class MembersComponent implements OnInit {
   }
 
   getUsers(): void {
-    this.userService.getUsers(this.pagination.currentPage, this.pagination.pageSize)
+    this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userFilterParams)
     .subscribe((result: PaginatedResult<IUser[]>) => {
       this.users = result.result;
       this.pagination = result.paginationInfo;
     }, error => {
       this.alertifyService.error(error);
     });
+  }
+
+  resetFilters() {
+    this.userFilterParams.gender = this.currentUser.gender === 'male' ? 'female' : 'male' ;
+    this.userFilterParams.minAge = 18;
+    this.userFilterParams.maxAge = 99;
+    this.getUsers();
   }
 }
