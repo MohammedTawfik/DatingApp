@@ -32,19 +32,19 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
             int currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            Models.User currentUser =await _datingRepo.GetUser(currentUserId);
+            Models.User currentUser = await _datingRepo.GetUser(currentUserId);
             userParams.UserId = currentUserId;
-            if(string.IsNullOrEmpty(userParams.Gender))
+            if (string.IsNullOrEmpty(userParams.Gender))
             {
                 userParams.Gender = currentUser.Gender.ToLower() == "male" ? "female" : "male";
             }
             PagedList<User> users = await _datingRepo.GetUsers(userParams);
-            Response.AddPaginationHeader(users.TotalPages, users.TotalCount , users.PageSize,users.CurrentPage);
+            Response.AddPaginationHeader(users.TotalPages, users.TotalCount, users.PageSize, users.CurrentPage);
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
             return Ok(usersToReturn);
         }
 
-        [HttpGet("{id}",Name = "GetUser")]
+        [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _datingRepo.GetUser(id);
@@ -59,11 +59,38 @@ namespace DatingApp.API.Controllers
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
             User userFromRepo = await _datingRepo.GetUser(id);
-            _mapper.Map<UserForUpdateDto,User>(user,userFromRepo);
-            if(await _datingRepo.SaveAll())
-            return NoContent();
+            _mapper.Map<UserForUpdateDto, User>(user, userFromRepo);
+            if (await _datingRepo.SaveAll())
+                return NoContent();
 
             throw new Exception($"Updating user {id} failed on the server");
+        }
+
+        [HttpPost("{userid}/like/{recipientid}")]
+        public async Task<IActionResult> Like(int userId, int recipientId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            if (await _datingRepo.GetUser(recipientId) == null)
+                return NotFound();
+
+            var like = await _datingRepo.Like(userId, recipientId);
+
+            if (like != null)
+                return BadRequest("You liked this user already");
+
+            like = new Like()
+            {
+                LikeeId = recipientId,
+                LikerId = userId
+            };
+
+            _datingRepo.Add(like);
+            if (await _datingRepo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to like user");
         }
     }
 }

@@ -1,3 +1,4 @@
+import { FriendsListResolver } from './_resolvers/friends.resolver';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
@@ -83,7 +84,8 @@ export function getToken() {
       UserService,
       MemberDetailResolver,
       MembersListResolver,
-      MemberEditResolver
+      MemberEditResolver,
+      FriendsListResolver
    ],
    bootstrap: [
       AppComponent

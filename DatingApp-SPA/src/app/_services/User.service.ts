@@ -1,10 +1,10 @@
-import { map } from 'rxjs/operators';
-import { PaginatedResult } from './../_models/PaginatedResult';
-import { IUser } from './../_models/IUser';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { IUser } from './../_models/IUser';
+import { PaginatedResult } from './../_models/PaginatedResult';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getUsers(pageNumber? , pageSize? , userFilterParams?): Observable<PaginatedResult<IUser[]>> {
+  getUsers(pageNumber? , pageSize? , userFilterParams? , likers?): Observable<PaginatedResult<IUser[]>> {
     const paginatedResult: PaginatedResult<IUser[]> = new PaginatedResult<IUser[]>();
     let params: HttpParams = new HttpParams();
     if (pageNumber != null) {
@@ -29,16 +29,19 @@ export class UserService {
       params = params.append('gender', userFilterParams.gender);
       params = params.append('orderBy', userFilterParams.orderBy);
     }
+
+    if (likers === 'liker') {
+      params = params.append('liker', 'true');
+    }
+    if (likers === 'likee') {
+      params = params.append('likee', 'true');
+    }
     return this.httpClient.get<IUser[]>(this.baseUrl + 'users', {observe: 'response', params: params})
     .pipe(
       map(response => {
         paginatedResult.result = response.body;
-        console.log('test 1');
-        console.log(response.headers.getAll('Pagination'));
         if (response.headers.get('Pagination') != null) {
-          console.log('test');
           paginatedResult.paginationInfo = JSON.parse(response.headers.get('Pagination'));
-          console.log(paginatedResult.paginationInfo);
         }
         return paginatedResult;
       })
@@ -61,4 +64,7 @@ export class UserService {
     return this.httpClient.delete(this.baseUrl + 'users/' + userId + '/photos/' + photoId);
   }
 
+  sendLike(userId: number , receipintId: number) {
+    return this.httpClient.post(this.baseUrl + 'users/' + userId + '/like/' + receipintId, {});
+  }
 }
